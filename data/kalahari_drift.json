@@ -1,6 +1,6 @@
 {
   "name": "Kalahari Drift",
-  "description": "Loose dirt desert tracks featuring thick mud pools that slow down cars and challenge sliding lines.",
+  "description": "Loose dirt desert track featuring thick mud pools that slow down cars and challenge driving lines.",
   "creator": "Rally Master",
   "version": "1.0",
   "grid_size": {
@@ -58,6 +58,7 @@
     "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
     "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
   ],
+  "start_finish_checkpoint_id": 1,
   "checkpoints": [
     {
       "id": 1,
