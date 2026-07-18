@@ -112,6 +112,11 @@
       },
       "minItems": 4
     },
+    "start_finish_checkpoint_id": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The checkpoint ID that marks the start/finish line (must match an id in checkpoints)."
+    },
     "decorations": {
       "type": "array",
       "items": {

@@ -6,13 +6,38 @@
       "tier": "starter",
       "price": 0,
       "image": "assets/cars/car_taxi.png",
-      "color": [220, 180, 20],
-      "stats": { "speed": 30, "weight": 45, "grip": 60, "turbo": 50 },
+      "color": [
+        220,
+        180,
+        20
+      ],
+      "stats": {
+        "speed": 30,
+        "weight": 45,
+        "grip": 60,
+        "turbo": 50
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 800},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 600},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 700},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 900}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 800
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 600
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 700
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 900
+        }
       }
     },
     {
@@ -21,13 +46,38 @@
       "tier": "starter",
       "price": 15000,
       "image": "assets/cars/car_figo.png",
-      "color": [180, 30, 30],
-      "stats": { "speed": 40, "weight": 50, "grip": 60, "turbo": 50 },
+      "color": [
+        180,
+        30,
+        30
+      ],
+      "stats": {
+        "speed": 40,
+        "weight": 50,
+        "grip": 60,
+        "turbo": 50
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 1000},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 800},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 900},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 1100}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 1000
+        },
+        "weight": {
+          "level": 3,
+          "max_level": 5,
+          "cost_per_level": 800
+        },
+        "grip": {
+          "level": 5,
+          "max_level": 5,
+          "cost_per_level": 900
+        },
+        "turbo": {
+          "level": 5,
+          "max_level": 5,
+          "cost_per_level": 1100
+        }
       }
     },
     {
@@ -36,13 +86,38 @@
       "tier": "economy",
       "price": 32000,
       "image": "assets/cars/car_bakkie.png",
-      "color": [80, 120, 60],
-      "stats": { "speed": 40, "weight": 65, "grip": 40, "turbo": 40 },
+      "color": [
+        80,
+        120,
+        60
+      ],
+      "stats": {
+        "speed": 40,
+        "weight": 65,
+        "grip": 40,
+        "turbo": 40
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 2500},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 2000},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 2200},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 2800}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 2500
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 2000
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 2200
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 2800
+        }
       }
     },
     {
@@ -51,13 +126,38 @@
       "tier": "economy",
       "price": 45000,
       "image": "assets/cars/car_quantum.png",
-      "color": [30, 120, 200],
-      "stats": { "speed": 40, "weight": 70, "grip": 30, "turbo": 30 },
+      "color": [
+        30,
+        120,
+        200
+      ],
+      "stats": {
+        "speed": 40,
+        "weight": 70,
+        "grip": 30,
+        "turbo": 30
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 3500},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 2800},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 3000},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 4000}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 3500
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 2800
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 3000
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 4000
+        }
       }
     },
     {
@@ -66,13 +166,38 @@
       "tier": "mid",
       "price": 90000,
       "image": "assets/cars/car_gusheshe.png",
-      "color": [180, 185, 195],
-      "stats": { "speed": 60, "weight": 55, "grip": 70, "turbo": 60 },
+      "color": [
+        180,
+        185,
+        195
+      ],
+      "stats": {
+        "speed": 60,
+        "weight": 55,
+        "grip": 70,
+        "turbo": 60
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 7000},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 5500},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 6000},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 8000}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 7000
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 5500
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 6000
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 8000
+        }
       }
     },
     {
@@ -81,13 +206,38 @@
       "tier": "mid",
       "price": 180000,
       "image": "assets/cars/car_hothatch.png",
-      "color": [200, 50, 50],
-      "stats": { "speed": 70, "weight": 50, "grip": 80, "turbo": 70 },
+      "color": [
+        200,
+        50,
+        50
+      ],
+      "stats": {
+        "speed": 70,
+        "weight": 50,
+        "grip": 80,
+        "turbo": 70
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 14000},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 11000},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 12000},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 16000}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 14000
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 11000
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 12000
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 16000
+        }
       }
     },
     {
@@ -96,13 +246,38 @@
       "tier": "premium",
       "price": 350000,
       "image": "assets/cars/car_exec_sedan.png",
-      "color": [40, 40, 80],
-      "stats": { "speed": 70, "weight": 60, "grip": 70, "turbo": 60 },
+      "color": [
+        40,
+        40,
+        80
+      ],
+      "stats": {
+        "speed": 70,
+        "weight": 60,
+        "grip": 70,
+        "turbo": 60
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 27000},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 22000},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 24000},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 30000}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 27000
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 22000
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 24000
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 30000
+        }
       }
     },
     {
@@ -111,13 +286,38 @@
       "tier": "premium",
       "price": 620000,
       "image": "assets/cars/car_muscle.png",
-      "color": [160, 30, 30],
-      "stats": { "speed": 80, "weight": 70, "grip": 60, "turbo": 90 },
+      "color": [
+        160,
+        30,
+        30
+      ],
+      "stats": {
+        "speed": 80,
+        "weight": 70,
+        "grip": 60,
+        "turbo": 90
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 48000},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 38000},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 42000},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 55000}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 48000
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 38000
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 42000
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 55000
+        }
       }
     },
     {
@@ -126,13 +326,38 @@
       "tier": "exotic",
       "price": 1100000,
       "image": "assets/cars/car_sportscoupe.png",
-      "color": [255, 140, 0],
-      "stats": { "speed": 90, "weight": 45, "grip": 90, "turbo": 80 },
+      "color": [
+        255,
+        140,
+        0
+      ],
+      "stats": {
+        "speed": 90,
+        "weight": 45,
+        "grip": 90,
+        "turbo": 80
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 85000},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 68000},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 75000},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 95000}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 85000
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 68000
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 75000
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 95000
+        }
       }
     },
     {
@@ -141,13 +366,38 @@
       "tier": "exotic",
       "price": 2500000,
       "image": "assets/cars/car_super.png",
-      "color": [200, 200, 60],
-      "stats": { "speed": 100, "weight": 40, "grip": 100, "turbo": 100 },
+      "color": [
+        200,
+        200,
+        60
+      ],
+      "stats": {
+        "speed": 100,
+        "weight": 40,
+        "grip": 100,
+        "turbo": 100
+      },
       "upgrades": {
-        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 200000},
-        "weight": {"level": 1, "max_level": 5, "cost_per_level": 160000},
-        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 175000},
-        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 220000}
+        "speed": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 200000
+        },
+        "weight": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 160000
+        },
+        "grip": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 175000
+        },
+        "turbo": {
+          "level": 1,
+          "max_level": 5,
+          "cost_per_level": 220000
+        }
       }
     }
   ]

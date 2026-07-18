@@ -3,7 +3,10 @@
   "level": 5,
   "level_xp": 340,
   "level_xp_max": 500,
-  "coins": 25000,
-  "owned_cars": ["taxi"],
-  "selected_car": "taxi"
+  "coins": 400,
+  "owned_cars": [
+    "taxi",
+    "figo"
+  ],
+  "selected_car": "figo"
 }
