@@ -3,7 +3,7 @@
   "level": 5,
   "level_xp": 340,
   "level_xp_max": 500,
-  "coins": 1200,
-  "owned_cars": ["gusheshe"],
-  "selected_car": "gusheshe"
+  "coins": 25000,
+  "owned_cars": ["taxi"],
+  "selected_car": "taxi"
 }

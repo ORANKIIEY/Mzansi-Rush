@@ -13,6 +13,23 @@ STATS_ORDER = [
 _sprite_cache: dict = {}
 
 
+TIER_COLORS = {
+    "starter": (120, 120, 120),
+    "economy": (80,  160, 80),
+    "mid":     (60,  140, 220),
+    "premium": (180, 100, 220),
+    "exotic":  (255, 165, 0),
+}
+
+
+def _fmt_coins(n):
+    if n >= 1_000_000:
+        return f"R{n/1_000_000:.1f}M"
+    if n >= 1_000:
+        return f"R{n//1_000}K"
+    return f"R{n}"
+
+
 def _draw_fallback_car(surface, cx, cy, color, w=260, h=120):
     x, y = cx - w // 2, cy - h // 2
     body = pygame.Rect(x + 20, y + 30, w - 40, h - 40)
@@ -228,10 +245,10 @@ class GarageScreen:
 
         if not owned:
             lock_surf = pygame.Surface((panel.w, panel.h - 80), pygame.SRCALPHA)
-            lock_surf.fill((0, 0, 0, 100))
+            lock_surf.fill((0, 0, 0, 110))
             surface.blit(lock_surf, (panel.x, panel.y + 80))
             lock_txt = self.fonts["heading"].render(
-                f"LOCKED  —  {car['price']:,} coins", True, ACCENT_GOLD)
+                f"LOCKED  —  {_fmt_coins(car['price'])}", True, ACCENT_GOLD)
             surface.blit(lock_txt, lock_txt.get_rect(
                 center=(panel.centerx, panel.centery + 20)))
 
@@ -240,7 +257,16 @@ class GarageScreen:
         draw_rounded_rect(surface, PANEL_BG, rp, 16)
 
         name_r = self.fonts["heading"].render(car["name"], True, TEXT_PRIMARY)
-        surface.blit(name_r, (rp.x + 20, rp.y + 16))
+        surface.blit(name_r, (rp.x + 20, rp.y + 14))
+
+        # tier badge
+        tier      = car.get("tier", "")
+        tier_col  = TIER_COLORS.get(tier, TEXT_DISABLED)
+        tier_surf = self.fonts["small"].render(tier.upper(), True, tier_col)
+        tier_rect = tier_surf.get_rect(right=rp.right - 14, y=rp.y + 18)
+        pygame.draw.rect(surface, (*tier_col, 40),
+                         tier_rect.inflate(12, 6), border_radius=6)
+        surface.blit(tier_surf, tier_rect)
 
         bar_x = rp.x + 20
         bar_w = rp.w - 40
@@ -290,7 +316,7 @@ class GarageScreen:
                 else:
                     can_afford = coins >= cost
                     cost_col   = TEXT_SECONDARY if can_afford else (180, 60, 60)
-                    cost_surf  = self.fonts["small"].render(f"{cost:,} coins", True, cost_col)
+                    cost_surf  = self.fonts["small"].render(_fmt_coins(cost), True, cost_col)
                     surface.blit(cost_surf, (rp.right - 16 - cost_surf.get_width(), row_y))
 
             # stat bar
@@ -375,11 +401,11 @@ class GarageScreen:
         can_afford = coins >= cost
         short      = cost - coins
         if can_afford:
-            cost_str  = f"Cost:  {cost:,} coins"
-            cost_col  = ACCENT_GOLD
+            cost_str = f"Cost:  {_fmt_coins(cost)}"
+            cost_col = ACCENT_GOLD
         else:
-            cost_str  = f"Need  {short:,}  more coins"
-            cost_col  = (220, 60, 60)
+            cost_str = f"Need  {_fmt_coins(short)}  more"
+            cost_col = (220, 60, 60)
         cost_surf = f_small.render(cost_str, True, cost_col)
         surface.blit(cost_surf, (rp.x + 16, zone_y + 30))
 
@@ -400,5 +426,5 @@ class GarageScreen:
 
         pygame.draw.rect(surface, btn_col, btn_rect, border_radius=10)
         btn_lbl = f_btn.render(
-            f"UPGRADE {stat_label}  —  {cost:,} coins", True, txt_col)
+            f"UPGRADE {stat_label}  —  {_fmt_coins(cost)}", True, txt_col)
         surface.blit(btn_lbl, btn_lbl.get_rect(center=btn_rect.center))
