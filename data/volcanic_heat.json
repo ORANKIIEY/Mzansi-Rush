@@ -118,15 +118,21 @@
     }
   ],
   "decorations": [
-    {
-      "type": "tire_stack",
-      "x": 7.5,
-      "y": 7.5
-    },
-    {
-      "type": "tire_stack",
-      "x": 43.5,
-      "y": 26.5
-    }
+    {"type": "tire_stack",     "x":  7.5, "y":  7.5},
+    {"type": "tire_stack",     "x": 43.5, "y": 26.5},
+    {"type": "warning_sign",   "x": 10.5, "y":  8.5},
+    {"type": "warning_sign",   "x": 40.5, "y": 15.5},
+    {"type": "concrete_block", "x": 25.5, "y":  5.5},
+    {"type": "concrete_block", "x": 38.5, "y": 28.5},
+    {"type": "corrugated_wall","x": 15.5, "y":  5.5},
+    {"type": "oil_drum_red",   "x":  8.5, "y": 18.5},
+    {"type": "oil_drum_red",   "x":  9.5, "y": 18.5},
+    {"type": "traffic_cone",   "x": 25.5, "y": 28.5},
+    {"type": "sa_flag",        "x": 25.5, "y":  2.5},
+    {"type": "sign_vuka",      "x": 15.5, "y": 28.5},
+    {"type": "sign_spaza",     "x": 35.5, "y":  5.5},
+    {"type": "crowd",          "x": 10.5, "y":  2.5},
+    {"type": "crowd",          "x": 40.5, "y":  2.5},
+    {"type": "crowd",          "x": 25.5, "y": 32.5}
   ]
 }

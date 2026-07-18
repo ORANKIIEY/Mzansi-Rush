@@ -114,15 +114,19 @@
     }
   ],
   "decorations": [
-    {
-      "type": "barrier",
-      "x": 39.5,
-      "y": 5.5
-    },
-    {
-      "type": "barrier",
-      "x": 15.5,
-      "y": 15.5
-    }
+    {"type": "barrier",        "x": 39.5, "y":  5.5},
+    {"type": "barrier",        "x": 15.5, "y": 15.5},
+    {"type": "warning_sign",   "x": 10.5, "y":  5.5},
+    {"type": "warning_sign",   "x": 35.5, "y": 20.5},
+    {"type": "concrete_block", "x": 22.5, "y":  8.5},
+    {"type": "concrete_block", "x": 30.5, "y": 15.5},
+    {"type": "traffic_cone",   "x": 14.5, "y":  8.5},
+    {"type": "traffic_cone",   "x": 38.5, "y": 14.5},
+    {"type": "sa_flag",        "x":  3.5, "y": 17.5},
+    {"type": "sign_no_gas",    "x": 22.5, "y": 25.5},
+    {"type": "crowd",          "x": 22.5, "y":  2.5},
+    {"type": "crowd",          "x": 38.5, "y":  2.5},
+    {"type": "crowd",          "x": 10.5, "y": 28.5},
+    {"type": "string_lights",  "x": 22.5, "y":  3.5}
   ]
 }

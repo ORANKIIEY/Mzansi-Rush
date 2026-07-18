@@ -82,6 +82,39 @@ _TIRE   = ( 24,  24,  24)
 _BARR_A = (255, 140,   0)
 _BARR_B = (228, 228, 228)
 
+# ── crowd colours ─────────────────────────────────────────────────────────────
+_CROWD_SKINS  = [(210,160,110),(180,120,80),(140,90,50),(100,65,30),(240,200,160),(160,110,70)]
+_CROWD_SHIRTS = [(220,40,40),(40,100,200),(40,180,60),(200,160,20),(220,220,220),
+                 (180,30,180),(200,100,30),(30,160,200),(240,120,30),(80,200,220)]
+
+# ── prop colours ──────────────────────────────────────────────────────────────
+_BARREL_Y = (200, 170,  20)
+_BARREL_R = (180,  30,  30)
+_CONE_O   = (230, 100,  20)
+_CONCRETE = (140, 138, 135)
+_CORR     = (120, 115, 110)
+
+# ── SA flag colours ───────────────────────────────────────────────────────────
+_SA_GREEN = (  0, 106,  46)
+_SA_GOLD  = (255, 185,   0)
+_SA_RED   = (222,  56,  49)
+_SA_BLUE  = (  0,  33, 105)
+
+# ── sign data ─────────────────────────────────────────────────────────────────
+_SIGN_COLS = {
+    "sign_spaza":  ((155, 20, 20),  (240, 220, 180)),
+    "sign_vuka":   (( 50, 80, 30),  (240, 200,  60)),
+    "sign_we_buy": (( 20, 90, 30),  (220, 240, 200)),
+    "sign_no_gas": (( 22, 22, 22),  (220, 220, 220)),
+}
+_SIGN_TEXT = {
+    "sign_spaza":  "SPAZA SHOP",
+    "sign_vuka":   "VUKA! MOJA",
+    "sign_we_buy": "WE BUY CARS",
+    "sign_no_gas": "NO GAS\nNO GO!",
+}
+_BULB_Y = (255, 230, 120)
+
 
 # ── Catmull-Rom (centre-dashes only) ─────────────────────────────────────────
 
@@ -174,7 +207,14 @@ class Track:
     # ── rendering ─────────────────────────────────────────────────────────────
 
     def draw(self, surface: pygame.Surface, cam_x: float, cam_y: float):
-        if not self._built: self._build_surface()
+        if not self._built:
+            try:
+                self._build_surface()
+            except Exception as e:
+                print(f"[Track] _build_surface error: {e}")
+                self._surface = pygame.Surface((self.world_w, self.world_h))
+                self._surface.fill((40, 36, 32))
+                self._built = True
         sw, sh = surface.get_width(), surface.get_height()
         clip   = pygame.Rect(int(cam_x), int(cam_y), sw, sh)
         clip.clamp_ip(pygame.Rect(0, 0, self.world_w, self.world_h))
@@ -398,6 +438,25 @@ class Track:
         for dec in rt.decorations:
             self._draw_decoration(surf, dec.type, dec.x*rts, dec.y*rts, rts)
 
+        # ── LAYER 8.5  Procedural crowd on grass tiles bordering road ───
+        _crng = random.Random(1337)
+        for gy in range(gh):
+            for gx in range(gw):
+                if self._tile_name(gx, gy) != "grass":
+                    continue
+                if not any(self._is_road(gx+dx, gy+dy)
+                           for dx, dy in ((-1,0),(1,0),(0,-1),(0,1))):
+                    continue
+                if _crng.random() < 0.52:
+                    continue
+                rx, ry = gx*rts, gy*rts
+                for _ in range(_crng.randint(2, 4)):
+                    px = rx + _crng.randint(8, rts-8)
+                    py = ry + _crng.randint(8, rts-8)
+                    skin  = _CROWD_SKINS [_crng.randint(0, len(_CROWD_SKINS)-1)]
+                    shirt = _CROWD_SHIRTS[_crng.randint(0, len(_CROWD_SHIRTS)-1)]
+                    self._draw_crowd_person(surf, px, py, skin, shirt)
+
         # ── LAYER 9  start / finish line ──────────────────────────────────
         spawn   = rt.starting_grid[0]
         sfgx    = int(spawn.x)
@@ -447,16 +506,159 @@ class Track:
         self._surface = surf
         self._built   = True
 
+    def _draw_crowd_person(self, surf, cx, cy, skin, shirt):
+        pygame.draw.circle(surf, skin,      (cx, cy-9), 5)
+        pygame.draw.rect(surf,   shirt,     (cx-4, cy-4, 8, 11))
+        pant = (38, 28, 18)
+        pygame.draw.rect(surf, pant, (cx-4, cy+7, 3, 9))
+        pygame.draw.rect(surf, pant, (cx+1, cy+7, 3, 9))
+
     def _draw_decoration(self, surf, dec_type, wx, wy, rts):
-        r = int(rts * 0.36)
+        r   = int(rts * 0.36)
+        ix  = int(wx)
+        iy  = int(wy)
+
         if dec_type == "tree":
-            pygame.draw.circle(surf, _TREE_D, (int(wx), int(wy)), r)
-            pygame.draw.circle(surf, _TREE_M, (int(wx), int(wy)), max(1,r-5))
+            pygame.draw.circle(surf, _TREE_D, (ix, iy), r)
+            pygame.draw.circle(surf, _TREE_M, (ix, iy), max(1, r-5))
+
         elif dec_type == "tire_stack":
-            pygame.draw.circle(surf, _TIRE,       (int(wx), int(wy)), r)
-            pygame.draw.circle(surf, (65,65,65),  (int(wx), int(wy)), r, 3)
+            pygame.draw.circle(surf, _TIRE,     (ix, iy), r)
+            pygame.draw.circle(surf, (65,65,65),(ix, iy), r, 3)
+
         elif dec_type == "barrier":
             bw = int(rts*.7); bh = int(rts*.3)
-            br = pygame.Rect(int(wx-bw//2), int(wy-bh//2), bw, bh)
+            br = pygame.Rect(ix-bw//2, iy-bh//2, bw, bh)
             pygame.draw.rect(surf, _BARR_A, br, border_radius=4)
             pygame.draw.rect(surf, _BARR_B, br, 2, border_radius=4)
+
+        elif dec_type == "warning_sign":
+            bw, bh = int(rts*0.72), int(rts*0.44)
+            bx, by = ix - bw//2, iy - bh//2
+            stripe  = bw // 5
+            for i in range(5):
+                c = (215, 30, 30) if i % 2 == 0 else (225, 225, 225)
+                pygame.draw.rect(surf, c, (bx + i*stripe, by, stripe, bh))
+            pygame.draw.rect(surf, (55, 50, 46), (bx, by, bw, bh), 2)
+            pygame.draw.line(surf, (90,80,70), (ix, iy+bh//2), (ix, iy+bh//2+rts//3), 4)
+
+        elif dec_type in ("oil_drum", "oil_drum_red"):
+            col = _BARREL_R if dec_type == "oil_drum_red" else _BARREL_Y
+            br  = int(rts * 0.21)
+            bh2 = int(rts * 0.42)
+            pygame.draw.rect(surf, col, (ix-br, iy-bh2//2, br*2, bh2), border_radius=br//2)
+            for ri in range(3):
+                ry2 = iy - bh2//2 + ri * bh2//3 + bh2//6
+                pygame.draw.line(surf, tuple(max(0,c-45) for c in col),
+                                 (ix-br+2, ry2), (ix+br-2, ry2), 2)
+            pygame.draw.ellipse(surf, tuple(min(255,c+35) for c in col),
+                                (ix-br, iy-bh2//2, br*2, br))
+            pygame.draw.rect(surf, tuple(max(0,c-30) for c in col),
+                             (ix-br, iy-bh2//2, br*2, bh2), 2, border_radius=br//2)
+
+        elif dec_type == "traffic_cone":
+            base_w = int(rts * 0.46)
+            h      = int(rts * 0.56)
+            pygame.draw.polygon(surf, _CONE_O, [
+                (ix - base_w//2, iy + h//2),
+                (ix + base_w//2, iy + h//2),
+                (ix, iy - h//2)
+            ])
+            mid = iy
+            pygame.draw.polygon(surf, (245, 245, 245), [
+                (ix - base_w//4, mid+4),
+                (ix + base_w//4, mid+4),
+                (ix + base_w//8, mid-4),
+                (ix - base_w//8, mid-4),
+            ])
+            pygame.draw.rect(surf, (55,52,50), (ix-base_w//2, iy+h//2-4, base_w, 8), border_radius=2)
+
+        elif dec_type == "concrete_block":
+            bw, bh = int(rts*0.66), int(rts*0.36)
+            bx, by = ix - bw//2, iy - bh//2
+            pygame.draw.rect(surf, _CONCRETE, (bx, by, bw, bh), border_radius=5)
+            pygame.draw.rect(surf, (100,98,95), (bx, by, bw, bh), 2, border_radius=5)
+            pygame.draw.line(surf, (162,160,157), (bx+4, by+4), (bx+bw-4, by+4), 2)
+
+        elif dec_type == "corrugated_wall":
+            bw, bh = int(rts*0.82), int(rts*0.52)
+            bx, by = ix - bw//2, iy - bh//2
+            pygame.draw.rect(surf, _CORR, (bx, by, bw, bh))
+            for ci in range(bw//7 + 1):
+                lx = bx + ci*7
+                col = (100,96,92) if ci % 2 == 0 else (132,127,122)
+                pygame.draw.line(surf, col, (lx, by), (lx, by+bh), 1)
+            pygame.draw.rect(surf, (68,64,60), (bx, by, bw, bh), 2)
+
+        elif dec_type == "tire_wall":
+            tr = int(rts * 0.19)
+            for ti in range(2):
+                for tj in range(3):
+                    tx = ix - tr*3 + tj*tr*2 + tr
+                    ty = iy + (ti-1)*tr*2 + tr
+                    pygame.draw.circle(surf, (28,26,24), (tx, ty), tr)
+                    pygame.draw.circle(surf, (55,52,50), (tx, ty), tr, 2)
+                    pygame.draw.circle(surf, (44,42,40), (tx, ty), max(1, tr-5))
+
+        elif dec_type in _SIGN_TEXT:
+            bg_col, txt_col = _SIGN_COLS[dec_type]
+            text = _SIGN_TEXT[dec_type]
+            bw, bh = int(rts*0.92), int(rts*0.5)
+            bx, by = ix - bw//2, iy - bh//2
+            pygame.draw.rect(surf, bg_col, (bx, by, bw, bh), border_radius=5)
+            light = tuple(min(255, c+55) for c in bg_col)
+            pygame.draw.rect(surf, light, (bx, by, bw, bh), 2, border_radius=5)
+            try:
+                fnt = pygame.font.SysFont("arial", max(8, bh//3), bold=True)
+                lines = text.split("\n")
+                for li, line in enumerate(lines):
+                    ts = fnt.render(line, True, txt_col)
+                    if ts.get_width() > bw - 8:
+                        ts = pygame.transform.scale(ts, (bw-8, ts.get_height()))
+                    ly2 = iy - (len(lines)-1) * (bh//4) // 2 + li * bh//4 - bh//8
+                    surf.blit(ts, ts.get_rect(centerx=ix, centery=ly2))
+            except Exception:
+                pass
+            pygame.draw.line(surf, (78,68,58), (ix, iy+bh//2), (ix, iy+bh//2+rts//4), 3)
+
+        elif dec_type == "sa_flag":
+            pygame.draw.line(surf, (155,138,95), (ix, iy-int(rts*0.52)), (ix, iy+int(rts*0.52)), 3)
+            fw, fh = int(rts*0.58), int(rts*0.40)
+            fx, fy = ix + 3, iy - int(rts*0.5)
+            pygame.draw.rect(surf, _SA_RED,         (fx, fy,          fw, fh//3))
+            pygame.draw.rect(surf, (255,255,255),   (fx, fy+fh//3,    fw, fh//3))
+            pygame.draw.rect(surf, _SA_BLUE,        (fx, fy+2*fh//3,  fw, fh//3))
+            pygame.draw.polygon(surf, _SA_GREEN,
+                [(fx, fy), (fx+fw//3, fy+fh//2), (fx, fy+fh)])
+            pygame.draw.polygon(surf, (0,0,0),
+                [(fx+2, fy+fh//8), (fx+fw//4, fy+fh//2), (fx+2, fy+7*fh//8)])
+            pygame.draw.polygon(surf, _SA_GOLD, [
+                (fx+fw//4-2, fy+fh//2-3),
+                (fx+fw//3-2, fy+fh//2),
+                (fx+fw//4-2, fy+fh//2+3),
+            ])
+            pygame.draw.rect(surf, (90,80,70), (fx, fy, fw, fh), 1)
+
+        elif dec_type == "string_lights":
+            n   = 5
+            lx0 = ix - int(rts*0.52)
+            lx1 = ix + int(rts*0.52)
+            ly  = iy - 10
+            pygame.draw.line(surf, (65,55,45), (lx0, ly), (lx1, ly), 2)
+            for i in range(n):
+                bx = lx0 + i*(lx1-lx0)//(n-1)
+                pygame.draw.line(surf, (65,55,45), (bx, ly), (bx, ly+13), 1)
+                glow = pygame.Surface((22, 22), pygame.SRCALPHA)
+                pygame.draw.circle(glow, (255,230,120,70), (11,11), 11)
+                surf.blit(glow, (bx-11, ly+3))
+                pygame.draw.circle(surf, _BULB_Y,       (bx, ly+14), 6)
+                pygame.draw.circle(surf, (255,255,200),  (bx, ly+14), 3)
+
+        elif dec_type == "crowd":
+            rng = random.Random(ix*37+iy*19)
+            for _ in range(rng.randint(3, 5)):
+                px = ix + rng.randint(-int(rts*0.36), int(rts*0.36))
+                py = iy + rng.randint(-int(rts*0.32), int(rts*0.32))
+                skin  = _CROWD_SKINS [rng.randint(0, len(_CROWD_SKINS)-1)]
+                shirt = _CROWD_SHIRTS[rng.randint(0, len(_CROWD_SHIRTS)-1)]
+                self._draw_crowd_person(surf, px, py, skin, shirt)

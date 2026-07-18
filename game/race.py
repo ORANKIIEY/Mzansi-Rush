@@ -41,15 +41,15 @@ class RaceScreen:
         track_path = f"data/{track_key}.json"
         if not os.path.exists(track_path):
             track_path = DEFAULT_TRACK
-
-        self.track = Track(track_path)
+        try:
+            self.track = Track(track_path)
+        except Exception:
+            self.track = Track(DEFAULT_TRACK)
 
         # ── car setup ─────────────────────────────────────────────────
-        sel_id  = game_data["player"]["selected_car"]
-        car_def = next(
-            (c for c in game_data["cars"] if c["id"] == sel_id),
-            game_data["cars"][0],
-        )
+        sel_id  = game_data["player"].get("selected_car", "")
+        cars    = game_data.get("cars", [])
+        car_def = next((c for c in cars if c["id"] == sel_id), cars[0] if cars else {})
         self.car_color = tuple(car_def.get("color", (180, 30, 30)))
         self._sprite   = self._load_sprite(car_def.get("image", ""))
 
@@ -106,6 +106,12 @@ class RaceScreen:
         return None
 
     def update(self, dt: float):
+        try:
+            self._update_safe(dt)
+        except Exception as e:
+            print(f"[Race] update error: {e}")
+
+    def _update_safe(self, dt: float):
         if self.state in ("paused", "finished"):
             return
 
@@ -193,6 +199,15 @@ class RaceScreen:
         self._clamp_cam()
 
     def draw(self, surface):
+        try:
+            self._draw_safe(surface)
+        except Exception as e:
+            print(f"[Race] draw error: {e}")
+            surface.fill((18, 16, 14))
+            err = self.fonts["body"].render(f"Rendering error — press ESC", True, (210, 40, 40))
+            surface.blit(err, err.get_rect(center=(self.SW//2, self.SH//2)))
+
+    def _draw_safe(self, surface):
         # 1. track tiles
         self.track.draw(surface, self.cam_x, self.cam_y)
 
@@ -217,12 +232,15 @@ class RaceScreen:
             surface.blit(fsurf, (0, 0))
 
         # 5. HUD
+        n_cp     = len(self.track.checkpoints)
         cur_tile = self.track.get_tile_def_at(self.physics.x, self.physics.y)
         self.hud.draw(
             surface, self.physics,
             self._lap, self.track.total_laps,
             self._lap_time, self._best_lap,
             self._total_time, cur_tile, self.health,
+            self._next_cp % n_cp if n_cp else 0,
+            n_cp,
         )
 
         # 6. overlays

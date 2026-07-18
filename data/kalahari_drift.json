@@ -114,20 +114,30 @@
     }
   ],
   "decorations": [
-    {
-      "type": "tree",
-      "x": 14.5,
-      "y": 12.5
-    },
-    {
-      "type": "tree",
-      "x": 30.5,
-      "y": 15.5
-    },
-    {
-      "type": "barrier",
-      "x": 6.5,
-      "y": 7.5
-    }
+    { "type": "tree",           "x": 14.5, "y": 12.5 },
+    { "type": "tree",           "x": 30.5, "y": 15.5 },
+    { "type": "tree",           "x": 15.5, "y": 20.5 },
+    { "type": "barrier",        "x":  6.5, "y":  7.5 },
+    { "type": "warning_sign",   "x":  8.5, "y":  6.5 },
+    { "type": "warning_sign",   "x": 40.5, "y": 10.5 },
+    { "type": "oil_drum",       "x": 14.5, "y":  6.5 },
+    { "type": "oil_drum",       "x": 15.5, "y":  6.5 },
+    { "type": "oil_drum_red",   "x": 35.5, "y":  6.5 },
+    { "type": "oil_drum_red",   "x": 36.5, "y":  6.5 },
+    { "type": "oil_drum",       "x": 26.5, "y": 23.5 },
+    { "type": "traffic_cone",   "x": 23.5, "y":  6.5 },
+    { "type": "traffic_cone",   "x": 25.5, "y":  6.5 },
+    { "type": "traffic_cone",   "x": 24.5, "y": 33.5 },
+    { "type": "concrete_block", "x": 24.5, "y": 14.5 },
+    { "type": "corrugated_wall","x": 24.5, "y": 22.5 },
+    { "type": "corrugated_wall","x": 44.5, "y": 25.5 },
+    { "type": "sign_no_gas",    "x": 17.5, "y": 15.5 },
+    { "type": "sign_we_buy",    "x": 30.5, "y": 22.5 },
+    { "type": "sa_flag",        "x":  3.5, "y": 20.5 },
+    { "type": "crowd",          "x": 25.5, "y":  3.5 },
+    { "type": "crowd",          "x": 12.5, "y":  3.5 },
+    { "type": "crowd",          "x": 38.5, "y":  3.5 },
+    { "type": "crowd",          "x": 25.5, "y": 36.5 },
+    { "type": "crowd",          "x": 14.5, "y": 22.5 }
   ]
 }
