@@ -26,6 +26,7 @@ _GOLD  = (215, 180,  30)
 _WHITE = (235, 235, 235)
 _GREY  = (130, 120, 110)
 _RED   = (210,  40,  40)
+_GREEN = ( 60, 200,  80)
 _BOOST_COL = (255, 215, 0)
 
 
@@ -200,8 +201,8 @@ class RaceScreen:
             sx = int(wx - self.cam_x)
             sy = int(wy - self.cam_y)
             if 0 <= sx < self.SW and 0 <= sy < self.SH:
-                a8 = int(55 * alpha / 220)
-                pygame.draw.circle(surface, (a8, a8-3, a8-5), (sx, sy), 3)
+                a8 = max(0, int(55 * alpha / 220))
+                pygame.draw.circle(surface, (a8, max(0, a8-3), max(0, a8-5)), (sx, sy), 3)
 
         # 3. car
         sx = int(self.physics.x - self.cam_x)
