@@ -2,29 +2,54 @@ import pygame
 import random
 from ui.colors import ACCENT_GOLD, ACCENT_RED
 
+_sprite_cache: dict = {}
+
+
+def _load_rotated_sprite(path, target_h):
+    """Load sprite, rotate 90° so top-down car faces right, scale to target height."""
+    key = (path, target_h)
+    if key in _sprite_cache:
+        return _sprite_cache[key]
+    raw = pygame.image.load(path)
+    try:
+        img = raw.convert_alpha()
+    except pygame.error:
+        img = raw
+    # top-down cars face up (portrait) → rotate -90° so they face right (landscape)
+    img = pygame.transform.rotate(img, -90)
+    iw, ih = img.get_size()
+    scale = target_h / ih
+    img = pygame.transform.smoothscale(img, (int(iw * scale), target_h))
+    _sprite_cache[key] = img
+    return img
+
 
 class DriveByAnimation:
     """A car that races across the screen behind the menu."""
 
-    CAR_W = 380
-    CAR_H = 160
-    SPEED = 11          # px per frame
-    Y_POS_RATIO = 0.68  # vertical position as fraction of screen height
+    CAR_H  = 110         # sprite height in px
+    SPEED  = 11          # px per frame
+    Y_POS_RATIO = 0.70   # vertical position as fraction of screen height
 
     def __init__(self, screen_w, screen_h):
         self.screen_w = screen_w
         self.screen_h = screen_h
-        self.car_x = -self.CAR_W - 40
-        self.car_y = int(screen_h * self.Y_POS_RATIO)
-        self.color = (220, 60, 60)
-        self.active = False
-        self._sparks = []
+        self.car_y    = int(screen_h * self.Y_POS_RATIO)
+        self.color    = (220, 60, 60)
+        self.image_path = None
+        self._sprite  = None
+        self._car_w   = 260         # updated when sprite loads
+        self.car_x    = -self._car_w - 40
+        self.active   = False
+        self._sparks  = []
 
-    def trigger(self, color):
-        self.color = color
-        self.car_x = -self.CAR_W - 40
-        self.active = True
-        self._sparks = []
+    def trigger(self, color, image_path=None):
+        self.color      = color
+        self.image_path = image_path
+        self._sprite    = None          # will load on first draw
+        self.car_x      = -(self._car_w + 40)
+        self.active     = True
+        self._sparks    = []
 
     def update(self):
         if not self.active:
@@ -55,76 +80,41 @@ class DriveByAnimation:
         if not self.active:
             return
 
-        cx = self.car_x + self.CAR_W // 2
-        cy = self.car_y
+        # lazy-load sprite
+        import os
+        if self._sprite is None and self.image_path and os.path.exists(self.image_path):
+            self._sprite = _load_rotated_sprite(self.image_path, self.CAR_H)
+            self._car_w  = self._sprite.get_width()
 
-        # speed lines (horizontal streaks behind car)
+        car_w = self._car_w
+        cy    = self.car_y
+        cx    = self.car_x + car_w // 2
+
+        # speed lines behind the car
         streak_surf = pygame.Surface((self.screen_w, self.screen_h), pygame.SRCALPHA)
         for i in range(18):
-            sy = cy - 40 + i * 16
+            sy     = cy - 30 + i * 14
             length = random.randint(60, 200)
-            alpha = random.randint(20, 60)
-            color_a = (*self.color, alpha)
-            x_end = self.car_x + random.randint(-30, 20)
-            pygame.draw.line(streak_surf, color_a,
+            alpha  = random.randint(20, 60)
+            x_end  = self.car_x + random.randint(-30, 20)
+            pygame.draw.line(streak_surf, (*self.color, alpha),
                              (max(0, x_end - length), sy), (max(0, x_end), sy), 2)
         surface.blit(streak_surf, (0, 0))
 
-        # shadow
-        shadow = pygame.Surface((self.CAR_W, 24), pygame.SRCALPHA)
+        # drop shadow
+        shadow = pygame.Surface((car_w, 20), pygame.SRCALPHA)
         pygame.draw.ellipse(shadow, (0, 0, 0, 90), shadow.get_rect())
-        surface.blit(shadow, (self.car_x + 20, cy + self.CAR_H - 14))
+        surface.blit(shadow, (self.car_x, cy + self.CAR_H - 10))
 
-        # --- body ---
-        x = self.car_x
-        y = cy
-        w, h = self.CAR_W, self.CAR_H
-
-        body = pygame.Rect(x + 30, y + 48, w - 60, h - 52)
-        roof_pts = [
-            (x + 90,  y + 48),
-            (x + 140, y + 8),
-            (x + w - 110, y + 8),
-            (x + w - 60, y + 48),
-        ]
-
-        pygame.draw.rect(surface, self.color, body, border_radius=12)
-        pygame.draw.polygon(surface, self.color, roof_pts)
-
-        highlight = tuple(min(255, c + 70) for c in self.color)
-        pygame.draw.rect(surface, highlight, body, 2, border_radius=12)
-        pygame.draw.polygon(surface, highlight, roof_pts, 2)
-
-        # windshield
-        wind_pts = [
-            (roof_pts[0][0] + 12, roof_pts[0][1] + 6),
-            (roof_pts[1][0] + 8,  roof_pts[1][1] + 6),
-            (roof_pts[2][0] - 8,  roof_pts[2][1] + 6),
-            (roof_pts[3][0] - 12, roof_pts[3][1] + 6),
-        ]
-        wind_surf = pygame.Surface((w, h), pygame.SRCALPHA)
-        pygame.draw.polygon(wind_surf, (100, 190, 255, 140), [
-            (p[0] - x, p[1] - y) for p in wind_pts])
-        surface.blit(wind_surf, (x, y))
-
-        # headlights
-        pygame.draw.ellipse(surface, (255, 240, 150),
-                            (x + w - 56, y + 56, 22, 14))
-        pygame.draw.ellipse(surface, (255, 255, 200, 80),
-                            (x + w - 40, y + 42, 40, 38))
-
-        # wheels
-        for wx, wy in [(x + 76, y + h - 20), (x + w - 76, y + h - 20)]:
-            pygame.draw.circle(surface, (25, 25, 25), (wx, wy), 32)
-            pygame.draw.circle(surface, (55, 55, 65), (wx, wy), 22)
-            pygame.draw.circle(surface, (120, 120, 130), (wx, wy), 10)
-            # spin effect lines
-            for angle_step in range(0, 360, 60):
-                import math
-                a = math.radians(angle_step + (pygame.time.get_ticks() // 20) % 360)
-                lx = wx + int(math.cos(a) * 18)
-                ly = wy + int(math.sin(a) * 18)
-                pygame.draw.line(surface, (80, 80, 90), (wx, wy), (lx, ly), 2)
+        if self._sprite:
+            surface.blit(self._sprite, (self.car_x, cy - self.CAR_H // 2))
+        else:
+            # fallback geometric car
+            x, y, w, h = self.car_x, cy, car_w, self.CAR_H
+            body = pygame.Rect(x + 20, y + 30, w - 40, h - 40)
+            pygame.draw.rect(surface, self.color, body, border_radius=12)
+            highlight = tuple(min(255, c + 70) for c in self.color)
+            pygame.draw.rect(surface, highlight, body, 2, border_radius=12)
 
         # sparks / particles
         for s in self._sparks:

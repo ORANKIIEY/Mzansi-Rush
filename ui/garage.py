@@ -1,3 +1,4 @@
+import os
 import pygame
 from ui.colors import *
 from ui.components import draw_rounded_rect, ArrowButton, Button, NAV_H
@@ -9,45 +10,34 @@ STATS_ORDER = [
     ("turbo",  "TURBO"),
 ]
 
+_sprite_cache: dict = {}
 
-class CarPreview:
-    def __init__(self, cx, cy, w=320, h=140):
-        self.cx = cx
-        self.cy = cy
-        self.w  = w
-        self.h  = h
 
-    def draw(self, surface, color):
-        x = self.cx - self.w // 2
-        y = self.cy - self.h // 2
+def _draw_fallback_car(surface, cx, cy, color, w=260, h=120):
+    x, y = cx - w // 2, cy - h // 2
+    body = pygame.Rect(x + 20, y + 30, w - 40, h - 40)
+    pygame.draw.rect(surface, color, body, border_radius=10)
+    outline = tuple(min(255, c + 60) for c in color)
+    pygame.draw.rect(surface, outline, body, 2, border_radius=10)
+    for wx, wy in [(x + 50, y + h - 16), (x + w - 50, y + h - 16)]:
+        pygame.draw.circle(surface, (30, 30, 30), (wx, wy), 22)
+        pygame.draw.circle(surface, (80, 80, 80), (wx, wy), 12)
 
-        body_rect = pygame.Rect(x + 30, y + 40, self.w - 60, self.h - 50)
-        roof_pts  = [
-            (x + 80,          y + 40),
-            (x + 120,         y + 5),
-            (x + self.w - 100, y + 5),
-            (x + self.w - 60,  y + 40),
-        ]
 
-        shadow = pygame.Surface((self.w, 20), pygame.SRCALPHA)
-        pygame.draw.ellipse(shadow, (0, 0, 0, 80), shadow.get_rect())
-        surface.blit(shadow, (x, self.cy + self.h // 2 - 15))
-
-        pygame.draw.rect(surface, color, body_rect, border_radius=10)
-        pygame.draw.polygon(surface, color, roof_pts)
-        outline = tuple(min(255, c + 60) for c in color)
-        pygame.draw.rect(surface, outline, body_rect, 2, border_radius=10)
-        pygame.draw.polygon(surface, outline, roof_pts, 2)
-
-        wind_pts = [(p[0] + 4, p[1] + 4) for p in roof_pts]
-        wind_pts[0] = (roof_pts[0][0] + 10, roof_pts[0][1] + 5)
-        wind_pts[3] = (roof_pts[3][0] - 10, roof_pts[3][1] + 5)
-        pygame.draw.polygon(surface, (100, 180, 255, 180), wind_pts)
-
-        for wx, wy in [(x + 65, y + self.h - 20), (x + self.w - 65, y + self.h - 20)]:
-            pygame.draw.circle(surface, (30, 30, 30), (wx, wy), 28)
-            pygame.draw.circle(surface, (70, 70, 70), (wx, wy), 18)
-            pygame.draw.circle(surface, (130, 130, 130), (wx, wy), 8)
+def _load_sprite(path, fit_w, fit_h):
+    """Load and scale a car sprite to fit within fit_w × fit_h, keep aspect ratio."""
+    if path in _sprite_cache:
+        return _sprite_cache[path]
+    raw = pygame.image.load(path)
+    try:
+        img = raw.convert_alpha()
+    except pygame.error:
+        img = raw
+    iw, ih = img.get_size()
+    scale = min(fit_w / iw, fit_h / ih)
+    img = pygame.transform.smoothscale(img, (int(iw * scale), int(ih * scale)))
+    _sprite_cache[path] = img
+    return img
 
 
 class GarageScreen:
@@ -73,9 +63,11 @@ class GarageScreen:
 
         preview_cx = int(screen_w * 0.38)
         preview_cy = NAV_H + int((screen_h - NAV_H) * 0.48)
-        self.preview    = CarPreview(preview_cx, preview_cy)
-        self.left_arrow  = ArrowButton(preview_cx - 190, preview_cy, 28, "left")
-        self.right_arrow = ArrowButton(preview_cx + 190, preview_cy, 28, "right")
+        self._preview_cx  = preview_cx
+        self._preview_cy  = preview_cy
+        self._sprite_fit  = (240, 320)   # max sprite size inside the panel
+        self.left_arrow   = ArrowButton(preview_cx - 200, preview_cy, 28, "left")
+        self.right_arrow  = ArrowButton(preview_cx + 200, preview_cy, 28, "right")
 
         # right panel geometry (mirrored from draw so handle_event can use it)
         rp_x   = int(screen_w * 0.65)
@@ -207,12 +199,32 @@ class GarageScreen:
         panel = pygame.Rect(40, top, int(sw * 0.62), sh - top - 80)
         draw_rounded_rect(surface, PANEL_BG, panel, 16)
 
-        self.preview.draw(surface, car["color"])
+        # car sprite
+        img_path = car.get("image", "")
+        if img_path and os.path.exists(img_path):
+            sprite = _load_sprite(img_path, *self._sprite_fit)
+            sw_s, sh_s = sprite.get_size()
+            blit_x = self._preview_cx - sw_s // 2
+            blit_y = self._preview_cy - sh_s // 2
+            # glow ring behind sprite when car is selected
+            if self._is_selected():
+                glow = pygame.Surface((sw_s + 30, sh_s + 30), pygame.SRCALPHA)
+                pygame.draw.ellipse(glow, (*ACCENT_GOLD, 40), glow.get_rect())
+                surface.blit(glow, (blit_x - 15, blit_y - 15))
+            # drop shadow
+            shadow = pygame.Surface((sw_s, 20), pygame.SRCALPHA)
+            pygame.draw.ellipse(shadow, (0, 0, 0, 80), shadow.get_rect())
+            surface.blit(shadow, (blit_x, blit_y + sh_s - 10))
+            surface.blit(sprite, (blit_x, blit_y))
+        else:
+            # fallback geometric shape
+            _draw_fallback_car(surface, self._preview_cx, self._preview_cy, car["color"])
+
         self.left_arrow.draw(surface)
         self.right_arrow.draw(surface)
 
         name_surf = self.fonts["heading"].render(car["name"], True, TEXT_PRIMARY)
-        surface.blit(name_surf, name_surf.get_rect(centerx=self.preview.cx, y=panel.y + 14))
+        surface.blit(name_surf, name_surf.get_rect(centerx=self._preview_cx, y=panel.y + 14))
 
         if not owned:
             lock_surf = pygame.Surface((panel.w, panel.h - 80), pygame.SRCALPHA)

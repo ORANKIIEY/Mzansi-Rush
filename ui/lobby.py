@@ -40,7 +40,8 @@ class LobbyScreen:
         cars = self.gd["cars"]
         car = next((c for c in cars if c["id"] == sel_id), None)
         color = tuple(car["color"]) if car else (220, 60, 60)
-        self.driveby.trigger(color)
+        img   = car.get("image") if car else None
+        self.driveby.trigger(color, img)
 
     def on_enter(self):
         """Call this every time the lobby becomes the active screen."""

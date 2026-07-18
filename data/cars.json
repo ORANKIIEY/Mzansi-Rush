@@ -1,155 +1,79 @@
 {
   "cars": [
     {
-      "id": "viper_s",
-      "name": "Viper S",
+      "id": "gusheshe",
+      "name": "Gusheshe",
       "price": 0,
-      "color": [
-        220,
-        60,
-        60
-      ],
+      "image": "assets/cars/car_gusheshe.png",
+      "color": [180, 185, 195],
       "stats": {
-        "speed": 65,
+        "speed":  65,
         "weight": 55,
-        "grip": 70,
-        "turbo": 40
+        "grip":   70,
+        "turbo":  40
       },
       "upgrades": {
-        "speed": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 500
-        },
-        "weight": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 400
-        },
-        "grip": {
-          "level": 2,
-          "max_level": 5,
-          "cost_per_level": 450
-        },
-        "turbo": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 600
-        }
+        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 500},
+        "weight": {"level": 1, "max_level": 5, "cost_per_level": 400},
+        "grip":   {"level": 2, "max_level": 5, "cost_per_level": 450},
+        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 600}
       }
     },
     {
-      "id": "storm_gt",
-      "name": "Storm GT",
+      "id": "figo",
+      "name": "Figo",
       "price": 1500,
-      "color": [
-        60,
-        180,
-        220
-      ],
+      "image": "assets/cars/car_figo.png",
+      "color": [180, 30, 30],
       "stats": {
-        "speed": 80,
-        "weight": 45,
-        "grip": 60,
-        "turbo": 75
-      },
-      "upgrades": {
-        "speed": {
-          "level": 2,
-          "max_level": 5,
-          "cost_per_level": 700
-        },
-        "weight": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 500
-        },
-        "grip": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 550
-        },
-        "turbo": {
-          "level": 3,
-          "max_level": 5,
-          "cost_per_level": 800
-        }
-      }
-    },
-    {
-      "id": "black_mamba",
-      "name": "Black Mamba",
-      "price": 3000,
-      "color": [
-        30,
-        30,
-        30
-      ],
-      "stats": {
-        "speed": 90,
+        "speed":  75,
         "weight": 50,
-        "grip": 85,
-        "turbo": 80
+        "grip":   65,
+        "turbo":  60
       },
       "upgrades": {
-        "speed": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 900
-        },
-        "weight": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 700
-        },
-        "grip": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 750
-        },
-        "turbo": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 1000
-        }
+        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 700},
+        "weight": {"level": 1, "max_level": 5, "cost_per_level": 500},
+        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 550},
+        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 800}
       }
     },
     {
-      "id": "solar_flare",
-      "name": "Solar Flare",
-      "price": 5000,
-      "color": [
-        255,
-        165,
-        0
-      ],
+      "id": "taxi",
+      "name": "Taxi",
+      "price": 3000,
+      "image": "assets/cars/car_taxi.png",
+      "color": [220, 180, 20],
       "stats": {
-        "speed": 95,
-        "weight": 40,
-        "grip": 75,
-        "turbo": 95
+        "speed":  80,
+        "weight": 70,
+        "grip":   60,
+        "turbo":  75
       },
       "upgrades": {
-        "speed": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 1200
-        },
-        "weight": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 900
-        },
-        "grip": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 1000
-        },
-        "turbo": {
-          "level": 1,
-          "max_level": 5,
-          "cost_per_level": 1300
-        }
+        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 900},
+        "weight": {"level": 1, "max_level": 5, "cost_per_level": 700},
+        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 750},
+        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 1000}
+      }
+    },
+    {
+      "id": "quantum",
+      "name": "Quantum",
+      "price": 5000,
+      "image": "assets/cars/car_quantum.png",
+      "color": [30, 120, 200],
+      "stats": {
+        "speed":  90,
+        "weight": 80,
+        "grip":   70,
+        "turbo":  85
+      },
+      "upgrades": {
+        "speed":  {"level": 1, "max_level": 5, "cost_per_level": 1200},
+        "weight": {"level": 1, "max_level": 5, "cost_per_level": 900},
+        "grip":   {"level": 1, "max_level": 5, "cost_per_level": 1000},
+        "turbo":  {"level": 1, "max_level": 5, "cost_per_level": 1300}
       }
     }
   ]
