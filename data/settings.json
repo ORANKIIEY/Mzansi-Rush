@@ -1,0 +1,9 @@
+{
+  "music_volume": 100,
+  "sfx_volume": 75,
+  "music_enabled": true,
+  "sfx_enabled": true,
+  "difficulty": "medium",
+  "fullscreen": true,
+  "show_fps": true
+}
