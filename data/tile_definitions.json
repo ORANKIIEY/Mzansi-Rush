@@ -1,0 +1,104 @@
+{
+  "tiles": {
+    "asphalt": {
+      "friction": 1.0,
+      "drivable": true,
+      "hazard": false,
+      "speed_multiplier": 1.0,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [80, 80, 80],
+      "description": "Standard high-grip asphalt racing surface."
+    },
+    "grass": {
+      "friction": 0.45,
+      "drivable": true,
+      "hazard": false,
+      "speed_multiplier": 0.6,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [34, 139, 34],
+      "description": "Off-track grass. Low grip and moderate slowdown."
+    },
+    "dirt": {
+      "friction": 0.7,
+      "drivable": true,
+      "hazard": false,
+      "speed_multiplier": 0.85,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [139, 69, 19],
+      "description": "Loose dirt track surface. Drifting is highly effective here."
+    },
+    "mud": {
+      "friction": 0.35,
+      "drivable": true,
+      "hazard": true,
+      "speed_multiplier": 0.4,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [92, 64, 51],
+      "description": "Thick mud patch. Dramatically slows down the vehicle."
+    },
+    "ice": {
+      "friction": 0.15,
+      "drivable": true,
+      "hazard": true,
+      "speed_multiplier": 0.9,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [173, 216, 230],
+      "description": "Slippery ice patch. Control is extremely difficult."
+    },
+    "oil_slick": {
+      "friction": 0.05,
+      "drivable": true,
+      "hazard": true,
+      "speed_multiplier": 1.0,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [25, 25, 25],
+      "description": "Spilled motor oil. Causes near-total loss of steering control."
+    },
+    "wall": {
+      "friction": 0.0,
+      "drivable": false,
+      "hazard": false,
+      "speed_multiplier": 0.0,
+      "damage_per_sec": 0.0,
+      "collision_damage": 25.0,
+      "color_rgb": [180, 180, 180],
+      "description": "Solid concrete barrier. Blocks movement and damages the vehicle on impact."
+    },
+    "boost": {
+      "friction": 1.0,
+      "drivable": true,
+      "hazard": false,
+      "speed_multiplier": 1.5,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [255, 215, 0],
+      "description": "Supercharger boost pad. Speeds up the vehicle."
+    },
+    "lava": {
+      "friction": 0.5,
+      "drivable": true,
+      "hazard": true,
+      "speed_multiplier": 0.7,
+      "damage_per_sec": 30.0,
+      "collision_damage": 0.0,
+      "color_rgb": [255, 69, 0],
+      "description": "Molten lava. Deals severe thermal damage to the vehicle over time."
+    },
+    "water": {
+      "friction": 0.3,
+      "drivable": true,
+      "hazard": true,
+      "speed_multiplier": 0.5,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [30, 144, 255],
+      "description": "Deep water hazard. Substantially reduces grip and speed."
+    }
+  }
+}

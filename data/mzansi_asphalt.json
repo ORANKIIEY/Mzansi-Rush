@@ -1,0 +1,133 @@
+{
+  "name": "Mzansi Asphalt Classic",
+  "description": "A high-speed grand prix street circuit with technical chicanes and supercharger boost pads.",
+  "creator": "Track Architect",
+  "version": "1.0",
+  "grid_size": {
+    "width": 40,
+    "height": 30
+  },
+  "laps": 3,
+  "difficulty": "medium",
+  "tile_size": 32,
+  "tile_palette": {
+    "W": "wall",
+    "G": "grass",
+    "A": "asphalt",
+    "B": "boost"
+  },
+  "grid": [
+    "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
+    "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
+    "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
+    "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
+    "WGGGGAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAGGGW",
+    "WGGGGAAAAABBAAAAAAAAGAAAAAAABBAAAAAAGGGW",
+    "WGGGGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGGGW",
+    "WGGGGAAAGGGGGGGGGAAAAAAAGGGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGAAAAAWWWWGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGAAAAAWWWWGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGAAAAAWWWWGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGGAAAGWWWWGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGGAAAGWWWWGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGGGGGGWWWWGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGAAAAAAAAAAAGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGAAAAABBAAAAGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGAAAAAAAAAAAGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGAAAGGGGGAAAGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGAAAGGGGGAAAGGGGGGGAAAGGGW",
+    "WGGGGAAAGGGGGGGAAAGGGGGAAAGGGGGGGAAAGGGW",
+    "WGGGGAAAAAAAAAAAAAGGGGGAAAAAAAAAAAAAGGGW",
+    "WGGGGAAAAAAAAAAAAAGGGGGAAAAAAAAAAAAAGGGW",
+    "WGGGGAAAAAAAAAAAAAGGGGGAAAAAAAAAAAAAGGGW",
+    "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
+    "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
+    "WGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGW",
+    "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+  ],
+  "checkpoints": [
+    {
+      "id": 1,
+      "x": 6,
+      "y": 15,
+      "name": "Start/Finish Line"
+    },
+    {
+      "id": 2,
+      "x": 15,
+      "y": 6,
+      "name": "Sector 1 Chicane Entry"
+    },
+    {
+      "id": 3,
+      "x": 28,
+      "y": 6,
+      "name": "Sector 1 Straight"
+    },
+    {
+      "id": 4,
+      "x": 34,
+      "y": 15,
+      "name": "Sector 2 East Loop"
+    },
+    {
+      "id": 5,
+      "x": 20,
+      "y": 18,
+      "name": "Sector 3 Infield"
+    },
+    {
+      "id": 6,
+      "x": 6,
+      "y": 24,
+      "name": "Sector 3 Final Turn"
+    }
+  ],
+  "starting_grid": [
+    {
+      "x": 6,
+      "y": 16,
+      "direction": "north"
+    },
+    {
+      "x": 7,
+      "y": 16,
+      "direction": "north"
+    },
+    {
+      "x": 6,
+      "y": 17,
+      "direction": "north"
+    },
+    {
+      "x": 7,
+      "y": 17,
+      "direction": "north"
+    }
+  ],
+  "decorations": [
+    {
+      "type": "tree",
+      "x": 10.5,
+      "y": 10.5
+    },
+    {
+      "type": "tree",
+      "x": 11.5,
+      "y": 11.5
+    },
+    {
+      "type": "tire_stack",
+      "x": 19.5,
+      "y": 8.5
+    },
+    {
+      "type": "tire_stack",
+      "x": 23.5,
+      "y": 25.5
+    }
+  ]
+}

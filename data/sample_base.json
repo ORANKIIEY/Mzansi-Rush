@@ -1,0 +1,85 @@
+{
+  "name": "Sample Baseline Track",
+  "description": "A small circular training track used to verify schema and connectivity validation.",
+  "creator": "Antigravity",
+  "version": "1.0",
+  "grid_size": {
+    "width": 15,
+    "height": 10
+  },
+  "laps": 2,
+  "difficulty": "easy",
+  "tile_size": 32,
+  "tile_palette": {
+    "W": "wall",
+    "A": "asphalt",
+    "G": "grass"
+  },
+  "grid": [
+    "WWWWWWWWWWWWWWW",
+    "WAAAAAAAAAAAAAW",
+    "WAWWWWWWWWWWWAW",
+    "WAWGGGGGGGGGWAW",
+    "WAWGGGGGGGGGWAW",
+    "WAWGGGGGGGGGWAW",
+    "WAWGGGGGGGGGWAW",
+    "WAWWWWWWWWWWWAW",
+    "WAAAAAAAAAAAAAW",
+    "WWWWWWWWWWWWWWW"
+  ],
+  "checkpoints": [
+    {
+      "id": 1,
+      "x": 7,
+      "y": 1,
+      "name": "Start/Finish Line"
+    },
+    {
+      "id": 2,
+      "x": 13,
+      "y": 5,
+      "name": "East Curve"
+    },
+    {
+      "id": 3,
+      "x": 7,
+      "y": 8,
+      "name": "South Straight"
+    },
+    {
+      "id": 4,
+      "x": 1,
+      "y": 5,
+      "name": "West Curve"
+    }
+  ],
+  "starting_grid": [
+    {
+      "x": 3,
+      "y": 1,
+      "direction": "east"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "direction": "east"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "direction": "east"
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "direction": "east"
+    }
+  ],
+  "decorations": [
+    {
+      "type": "tree",
+      "x": 7.5,
+      "y": 4.5
+    }
+  ]
+}
