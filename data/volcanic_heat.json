@@ -1,0 +1,131 @@
+{
+  "name": "Volcanic Heat Run",
+  "description": "An extreme race circuit surrounded by active lava. Run through cooling water pools to offset engine heat, but avoid slick oil spills.",
+  "creator": "Magma Core Designer",
+  "version": "1.0",
+  "grid_size": {
+    "width": 50,
+    "height": 35
+  },
+  "laps": 3,
+  "difficulty": "extreme",
+  "tile_size": 32,
+  "tile_palette": {
+    "W": "wall",
+    "G": "grass",
+    "A": "asphalt",
+    "O": "oil_slick",
+    "B": "boost",
+    "L": "lava",
+    "H": "water"
+  },
+  "grid": [
+    "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "WLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLW",
+    "WLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLW",
+    "WLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLW",
+    "WLLLLLLLGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGLLLLLLW",
+    "WLLLLLGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGLLLLW",
+    "WLLLLGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGLLLW",
+    "WLLLLGGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGGLLLW",
+    "WLLLGGGAAAAAAAAOAAAAAAAAHHHAAAAAAAAOAAAAAAAAGGGLLW",
+    "WLLLGGGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGGGLLW",
+    "WLLLGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGAAAGGGLLW",
+    "WLLLGGGABAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGABAGGGLLW",
+    "WLLLGGGABAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGABAGGGLLW",
+    "WLLLGGGAAAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGLLLLLLLLLLLLLLLLLLLLLLLLLGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGLLW",
+    "WLLLGGGAAAGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGAAAGGGLLW",
+    "WLLLGGGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGGGLLW",
+    "WLLLGGGAAAAAAAAOAAAAAAAAHHHAAAAAAAAOAAAAAAAAGGGLLW",
+    "WLLLLGGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGGLLLW",
+    "WLLLLGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGLLLW",
+    "WLLLLLGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGLLLLW",
+    "WLLLLLLLGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGLLLLLLW",
+    "WLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLW",
+    "WLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLW",
+    "WLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLW",
+    "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+  ],
+  "checkpoints": [
+    {
+      "id": 1,
+      "x": 20,
+      "y": 8,
+      "name": "Thermal Start"
+    },
+    {
+      "id": 2,
+      "x": 42,
+      "y": 8,
+      "name": "Northeast Bend"
+    },
+    {
+      "id": 3,
+      "x": 42,
+      "y": 18,
+      "name": "East Booster"
+    },
+    {
+      "id": 4,
+      "x": 30,
+      "y": 26,
+      "name": "Ash Straight"
+    },
+    {
+      "id": 5,
+      "x": 8,
+      "y": 26,
+      "name": "Southwest Bend"
+    },
+    {
+      "id": 6,
+      "x": 8,
+      "y": 13,
+      "name": "West Booster"
+    }
+  ],
+  "starting_grid": [
+    {
+      "x": 12,
+      "y": 8,
+      "direction": "east"
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "direction": "east"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "direction": "east"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "direction": "east"
+    }
+  ],
+  "decorations": [
+    {
+      "type": "tire_stack",
+      "x": 7.5,
+      "y": 7.5
+    },
+    {
+      "type": "tire_stack",
+      "x": 43.5,
+      "y": 26.5
+    }
+  ]
+}

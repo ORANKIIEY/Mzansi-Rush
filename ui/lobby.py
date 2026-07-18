@@ -1,7 +1,8 @@
 import pygame
 from ui.colors import *
-from ui.components import draw_rounded_rect, Button, CoinDisplay
+from ui.components import draw_rounded_rect, Button, CoinDisplay, ArrowButton
 from ui.driveby import DriveByAnimation
+from game.track import AVAILABLE_TRACKS
 
 
 class LobbyScreen:
@@ -35,6 +36,19 @@ class LobbyScreen:
 
         self._last_selected = game_data["player"]["selected_car"]
 
+        # ── track selector ────────────────────────────────────────────
+        self._tracks = AVAILABLE_TRACKS   # list of (key, path) tuples
+        active_key   = game_data["settings"].get("active_track", "mzansi_asphalt")
+        self._track_idx = next(
+            (i for i, (k, _) in enumerate(self._tracks) if k == active_key), 0
+        )
+
+        arr_y    = start_y + (btn_h + gap) * 2 + btn_h + gap + 28
+        arr_size = 18
+        self._arr_track_l = ArrowButton(cx - btn_w//2 + arr_size, arr_y, arr_size, "left")
+        self._arr_track_r = ArrowButton(cx + btn_w//2 - arr_size, arr_y, arr_size, "right")
+        self._arr_track_y = arr_y
+
     def _trigger_driveby(self):
         sel_id = self.gd["player"]["selected_car"]
         cars = self.gd["cars"]
@@ -62,6 +76,15 @@ class LobbyScreen:
             return "race"
         if self.btn_quit.handle_event(event):
             return "quit"
+
+        # Track selector arrows
+        if self._arr_track_l.handle_event(event):
+            self._track_idx = (self._track_idx - 1) % len(self._tracks)
+            self.gd["settings"]["active_track"] = self._tracks[self._track_idx][0]
+        if self._arr_track_r.handle_event(event):
+            self._track_idx = (self._track_idx + 1) % len(self._tracks)
+            self.gd["settings"]["active_track"] = self._tracks[self._track_idx][0]
+
         return None
 
     def draw(self, surface):
@@ -94,6 +117,35 @@ class LobbyScreen:
         self.btn_settings.draw(surface)
         self.btn_race.draw(surface)
         self.btn_quit.draw(surface)
+
+        # ── track selector strip ──────────────────────────────────────
+        track_key, _ = self._tracks[self._track_idx]
+        _TRACK_DISPLAY = {
+            "mzansi_asphalt":  ("Mzansi Asphalt Classic", "medium",  (80,  80,  80)),
+            "kalahari_drift":  ("Kalahari Drift",          "medium",  (139, 69,  19)),
+            "drakensberg_ice": ("Drakensberg Ice Pass",    "hard",    (173, 216, 230)),
+            "volcanic_heat":   ("Volcanic Heat Run",       "extreme", (255, 69,   0)),
+        }
+        track_name, track_diff, track_col = _TRACK_DISPLAY.get(
+            track_key, (track_key, "medium", (100, 100, 100))
+        )
+
+        arr_y    = self._arr_track_y
+        panel_w  = self.btn_race.rect.w
+        panel_x  = sw // 2 - panel_w // 2
+        panel    = pygame.Rect(panel_x, arr_y - 20, panel_w, 52)
+        draw_rounded_rect(surface, CARD_BG, panel, 10)
+        pygame.draw.rect(surface, track_col, (panel_x, arr_y - 20, 4, 52),
+                         border_radius=4)
+
+        tn_surf = self.fonts["body"].render(track_name, True, TEXT_PRIMARY)
+        surface.blit(tn_surf, tn_surf.get_rect(centerx=sw // 2, y=arr_y - 16))
+
+        td_surf = self.fonts["small"].render(f"difficulty: {track_diff}", True, TEXT_SECONDARY)
+        surface.blit(td_surf, td_surf.get_rect(centerx=sw // 2, y=arr_y + 6))
+
+        self._arr_track_l.draw(surface)
+        self._arr_track_r.draw(surface)
 
         # selected car hint
         sel_id = player["selected_car"]
