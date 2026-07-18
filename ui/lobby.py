@@ -43,10 +43,11 @@ class LobbyScreen:
             (i for i, (k, _) in enumerate(self._tracks) if k == active_key), 0
         )
 
-        arr_y    = start_y + (btn_h + gap) * 2 + btn_h + gap + 28
+        # Place track selector BELOW all four nav buttons (quit ends at start_y + 4*(btn_h+gap))
+        arr_y    = start_y + (btn_h + gap) * 4 + 14
         arr_size = 18
-        self._arr_track_l = ArrowButton(cx - btn_w//2 + arr_size, arr_y, arr_size, "left")
-        self._arr_track_r = ArrowButton(cx + btn_w//2 - arr_size, arr_y, arr_size, "right")
+        self._arr_track_l = ArrowButton(cx - btn_w//2 + arr_size, arr_y + arr_size, arr_size, "left")
+        self._arr_track_r = ArrowButton(cx + btn_w//2 - arr_size, arr_y + arr_size, arr_size, "right")
         self._arr_track_y = arr_y
 
     def _trigger_driveby(self):

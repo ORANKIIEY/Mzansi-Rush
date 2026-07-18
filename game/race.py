@@ -147,6 +147,28 @@ class RaceScreen:
             if new_tile.collision_damage > 0:
                 self.health = max(0.0, self.health - new_tile.collision_damage)
 
+        # ── obstacle (prop) collision ─────────────────────────────────
+        car_r = _CAR_H / 2.4
+        for ox, oy, orad in self.track.obstacles:
+            dx = self.physics.x - ox
+            dy = self.physics.y - oy
+            dist_sq = dx*dx + dy*dy
+            min_dist = car_r + orad
+            if dist_sq < min_dist * min_dist:
+                dist = dist_sq ** 0.5
+                if dist > 0.5:
+                    # push car out along the collision normal
+                    nx, ny = dx / dist, dy / dist
+                    self.physics.x = ox + nx * min_dist
+                    self.physics.y = oy + ny * min_dist
+                else:
+                    self.physics.x = prev_x
+                    self.physics.y = prev_y
+                # reverse and dampen speed; deal a small bump
+                self.physics.speed *= -0.30
+                self.physics.angular_vel *= 0.5
+                self.health = max(0.0, self.health - 1.5)
+
         # ── per-tile damage / boost ───────────────────────────────────
         cur_tile = self.track.get_tile_def_at(self.physics.x, self.physics.y)
         if cur_tile:

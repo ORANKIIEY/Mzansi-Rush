@@ -116,6 +116,20 @@ _SIGN_TEXT = {
 _BULB_Y = (255, 230, 120)
 
 
+# ── obstacle collision radii (world px) ──────────────────────────────────────
+# Decoration types that physically block the car, mapped to their collision radius
+# as a fraction of one rendered tile (rts).  Types absent here pass through freely.
+_OBSTACLE_RADIUS: dict[str, float] = {
+    "oil_drum":        0.23,
+    "oil_drum_red":    0.23,
+    "traffic_cone":    0.18,
+    "concrete_block":  0.30,
+    "corrugated_wall": 0.38,
+    "tire_wall":       0.32,
+    "tire_stack":      0.30,
+    "barrier":         0.30,
+}
+
 # ── Catmull-Rom (centre-dashes only) ─────────────────────────────────────────
 
 def _cr(p0, p1, p2, p3, t):
@@ -187,6 +201,14 @@ class Track:
         self.name         = self.racetrack.name
         self.difficulty   = self.racetrack.difficulty
 
+        # obstacles: list of (world_x, world_y, collision_radius_px)
+        self.obstacles: list[tuple[float, float, float]] = [
+            (dec.x * self._rts, dec.y * self._rts,
+             _OBSTACLE_RADIUS[dec.type] * self._rts)
+            for dec in self.racetrack.decorations
+            if dec.type in _OBSTACLE_RADIUS
+        ]
+
         self._surface = None
         self._built   = False
 
@@ -222,7 +244,15 @@ class Track:
 
     def draw_minimap(self, surface: pygame.Surface, x, y, w, h,
                      car_wx: float, car_wy: float):
-        if not self._built: self._build_surface()
+        if not self._built:
+            try:
+                self._build_surface()
+            except Exception:
+                self._surface = pygame.Surface((self.world_w, self.world_h))
+                self._surface.fill((40, 36, 32))
+                self._built = True
+        if self._surface is None:
+            return
         mm = pygame.transform.smoothscale(self._surface, (w, h))
         surface.blit(mm, (x, y))
         dx = int(car_wx / self.world_w * w)
