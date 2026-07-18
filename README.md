@@ -1,10 +1,13 @@
-# 🇿🇦 Pad Rivals — Mzansi Rush
+# 🇿🇦 Mzansi Rush — SA Street Racing
 
-A top-down 2D street racing game with full South African flavour.
+A top-down 2D street racing game built with **Pygame**, full of South African flavour.
 
-## 🎮 Play
+## 🚀 Quick Start
 
-Open `index.html` in any modern browser — no build step needed.
+```bash
+pip install -r requirements.txt
+python main.py
+```
 
 ## 🚗 Choose Your Ride
 
@@ -17,13 +20,16 @@ Open `index.html` in any modern browser — no build step needed.
 
 ## 🕹️ Controls
 
-| Action | Keyboard | Mobile |
-|---|---|---|
-| Steer left | `←` / `A` | Swipe left |
-| Steer right | `→` / `D` | Swipe right |
-| Nudge forward | `↑` / `W` | — |
-| Nudge back | `↓` / `S` | — |
-| Start / Restart | `Space` / `Enter` | Tap |
+| Action | Key |
+|---|---|
+| Steer left | `←` / `A` |
+| Steer right | `→` / `D` |
+| Nudge forward | `↑` / `W` |
+| Nudge back | `↓` / `S` |
+| Start / Restart | `Space` / `Enter` |
+| Pause | `Esc` |
+
+Touch / swipe also supported on touchscreen devices.
 
 ## 🏁 Gameplay
 
@@ -31,16 +37,19 @@ Open `index.html` in any modern browser — no build step needed.
 - **Overtake rivals** for bonus points (+100 each) with SA slang callouts
 - Speed ramps up over time — survive as long as you can
 - 3 lives — crash and you lose one. Hit 0 and it's **"EISH!"**
-- High score saved locally
+- High score saved automatically
 
-## 🎨 SA Spice
+## 🎨 Mzansi Spice
 
 - 🟢🟡🔴 SA flag colour palette throughout
 - SA-iconic car names (Gusheshe, Citi Golf, Hilux, Quantum)
 - Potholes as obstacles 😂
-- Overtake callouts: *SHARP! • LEKKER! • SHAP SHAP! • HEITA!*
-- "EISH!" game-over screen
+- Overtake callouts: *SHARP! • LEKKER! • SHAP SHAP! • HEITA! • AYOBA!*
+- "EISH!" game-over screen — *"Your ride is totalled, boet!"*
 
 ## 🛠️ Tech
 
-Pure HTML5 Canvas + vanilla JavaScript — zero dependencies.
+- **Python 3** + **Pygame** — zero other dependencies
+- Procedural sound effects (Web Audio–style beeps via `pygame.mixer`)
+- Pre-rendered car sprites for smooth 60 FPS
+- Particle effects, screen shake, headlight beams
