@@ -52,7 +52,7 @@
         30
       ],
       "stats": {
-        "speed": 62,
+        "speed": 40,
         "weight": 50,
         "grip": 60,
         "turbo": 50
@@ -92,7 +92,7 @@
         60
       ],
       "stats": {
-        "speed": 58,
+        "speed": 40,
         "weight": 65,
         "grip": 40,
         "turbo": 40
@@ -132,7 +132,7 @@
         200
       ],
       "stats": {
-        "speed": 55,
+        "speed": 40,
         "weight": 70,
         "grip": 30,
         "turbo": 30
@@ -172,7 +172,7 @@
         195
       ],
       "stats": {
-        "speed": 72,
+        "speed": 60,
         "weight": 55,
         "grip": 70,
         "turbo": 60
@@ -212,7 +212,7 @@
         50
       ],
       "stats": {
-        "speed": 82,
+        "speed": 70,
         "weight": 50,
         "grip": 80,
         "turbo": 70
@@ -252,7 +252,7 @@
         80
       ],
       "stats": {
-        "speed": 79,
+        "speed": 70,
         "weight": 60,
         "grip": 70,
         "turbo": 60
@@ -292,7 +292,7 @@
         30
       ],
       "stats": {
-        "speed": 87,
+        "speed": 80,
         "weight": 70,
         "grip": 60,
         "turbo": 90
@@ -332,7 +332,7 @@
         0
       ],
       "stats": {
-        "speed": 94,
+        "speed": 90,
         "weight": 45,
         "grip": 90,
         "turbo": 80

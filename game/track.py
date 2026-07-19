@@ -431,17 +431,53 @@ class Track:
                     pygame.draw.line(surf, _DASH, p1, p2, 3)
             dist += seg
 
-        # ── LAYER 5  boost pads ───────────────────────────────────────────
+        # ── LAYER 5  boost & slow pads ───────────────────────────────────────────
         for gy in range(gh):
             for gx in range(gw):
-                if self._tile_name(gx, gy) != "boost": continue
+                tname = self._tile_name(gx, gy)
+                if tname not in ("boost", "slow_pad"): continue
                 rx, ry = gx*rts, gy*rts
+                cx2, cy2 = rx+rts/2, ry+rts/2
+
+                # pad background
                 pad = pygame.Rect(rx+10, ry+10, rts-20, rts-20)
-                pygame.draw.rect(surf, (162, 128,  8), pad, border_radius=6)
-                pygame.draw.rect(surf, (255, 215,  0), pad, 3, border_radius=6)
-                cx2, cy2 = rx+rts//2, ry+rts//2
-                pygame.draw.polygon(surf, (255,230,50),
-                    [(cx2-9,cy2+8),(cx2+9,cy2+8),(cx2,cy2-10)])
+                if tname == "boost":
+                    pygame.draw.rect(surf, (162, 128,  8), pad, border_radius=6)
+                    pygame.draw.rect(surf, (255, 215,  0), pad, 3, border_radius=6)
+                    chev_col = (255, 230, 50)
+                    pts = [(-9, 8), (9, 8), (0, -10)] # points UP
+                else:
+                    pygame.draw.rect(surf, (162,  40,  8), pad, border_radius=6)
+                    pygame.draw.rect(surf, (255,  80, 50), pad, 3, border_radius=6)
+                    chev_col = (255, 120, 80)
+                    pts = [(-9, -8), (9, -8), (0, 10)] # points DOWN (backward)
+
+                # find closest cl point to determine road direction
+                best_i = 0
+                best_d = float('inf')
+                for i, p in enumerate(cl):
+                    d = (p[0]-cx2)**2 + (p[1]-cy2)**2
+                    if d < best_d:
+                        best_d = d
+                        best_i = i
+                
+                # get forward direction (look slightly ahead)
+                n_idx = (best_i + 3) % n_cl
+                dx = cl[n_idx][0] - cl[best_i][0]
+                dy = cl[n_idx][1] - cl[best_i][1]
+                
+                # angle = atan2(dy, dx) + pi/2 (to align UP with forward)
+                a = math.atan2(dy, dx) + math.pi/2
+                cos_a, sin_a = math.cos(a), math.sin(a)
+
+                # apply rotation
+                rotated_pts = []
+                for px, py in pts:
+                    nx = px * cos_a - py * sin_a
+                    ny = px * sin_a + py * cos_a
+                    rotated_pts.append((cx2 + nx, cy2 + ny))
+
+                pygame.draw.polygon(surf, chev_col, rotated_pts)
 
         # ── LAYER 6  ice patches ──────────────────────────────────────────
         for gy in range(gh):

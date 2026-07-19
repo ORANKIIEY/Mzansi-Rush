@@ -18,9 +18,12 @@ from game.hud     import HUD
 _CAR_W = 42
 _CAR_H = 68
 
-_SKID_THRESHOLD = 70    # deg/sec
-_SKID_MIN_SPEED = 35    # px/sec
-_SKID_MAX       = 400
+_SKID_THRESHOLD = 8.0   # drift angle degrees
+_SKID_MIN_SPEED = 60    # px/sec
+_SKID_MAX       = 600
+
+_SMOKE_MAX      = 120   # max active smoke particles
+_SMOKE_LIFE     = 0.45  # seconds
 
 _GOLD  = (215, 180,  30)
 _WHITE = (235, 235, 235)
@@ -84,6 +87,7 @@ class RaceScreen:
 
         # ── visual extras ─────────────────────────────────────────────
         self._skid_marks: list[tuple[int, int, int]] = []
+        self._smoke: list[list] = []   # [x, y, life, vx, vy, size]
 
         # ── state ─────────────────────────────────────────────────────
         self.state      = "countdown"
@@ -144,6 +148,8 @@ class RaceScreen:
             self.physics.x = prev_x
             self.physics.y = prev_y
             self.physics.speed *= -0.25
+            self.physics.vel_angle = self.physics.angle  # kill drift on wall hit
+            self.physics.drift_angle = 0.0
             if new_tile.collision_damage > 0:
                 self.health = max(0.0, self.health - new_tile.collision_damage)
 
@@ -167,6 +173,8 @@ class RaceScreen:
                 # reverse and dampen speed; deal a small bump
                 self.physics.speed *= -0.30
                 self.physics.angular_vel *= 0.5
+                self.physics.vel_angle = self.physics.angle
+                self.physics.drift_angle = 0.0
                 self.health = max(0.0, self.health - 1.5)
 
         # ── per-tile damage / boost ───────────────────────────────────
@@ -200,18 +208,57 @@ class RaceScreen:
                 else:
                     self.state = "finished"
 
-        # ── skid marks ────────────────────────────────────────────────
-        if (abs(self.physics.angular_vel) > _SKID_THRESHOLD
-                and self.physics.speed > _SKID_MIN_SPEED):
+        # ── skid marks (from drift physics) ────────────────────────────
+        if self.physics.is_drifting:
+            # Drop two marks (left + right rear tire)
+            rad = math.radians(self.physics.angle)
+            perp_x, perp_y = math.cos(rad), math.sin(rad)
+            off = 8  # half-axle width
+            cx, cy = self.physics.x, self.physics.y
+            # Rear offset
+            rear_x = cx - math.sin(rad) * 14
+            rear_y = cy + math.cos(rad) * 14
             self._skid_marks.append(
-                (int(self.physics.x), int(self.physics.y), 220)
+                (int(rear_x - perp_x * off), int(rear_y - perp_y * off), 220)
+            )
+            self._skid_marks.append(
+                (int(rear_x + perp_x * off), int(rear_y + perp_y * off), 220)
             )
             if len(self._skid_marks) > _SKID_MAX:
-                self._skid_marks.pop(0)
+                self._skid_marks = self._skid_marks[-_SKID_MAX:]
 
         self._skid_marks = [
             (x, y, max(0, a - 1)) for x, y, a in self._skid_marks if a > 0
         ]
+
+        # ── drift smoke particles ─────────────────────────────────────
+        if self.physics.drift_intensity > 0.3 and self.physics.speed > 80:
+            import random
+            rad = math.radians(self.physics.angle)
+            rear_x = self.physics.x - math.sin(rad) * 18
+            rear_y = self.physics.y + math.cos(rad) * 18
+            for _ in range(int(2 + 3 * self.physics.drift_intensity)):
+                self._smoke.append([
+                    rear_x + random.uniform(-6, 6),
+                    rear_y + random.uniform(-6, 6),
+                    _SMOKE_LIFE,
+                    random.uniform(-15, 15),
+                    random.uniform(-15, 15),
+                    random.uniform(4, 10 + 8 * self.physics.drift_intensity),
+                ])
+            if len(self._smoke) > _SMOKE_MAX:
+                self._smoke = self._smoke[-_SMOKE_MAX:]
+
+        # Update smoke
+        alive = []
+        for p in self._smoke:
+            p[2] -= dt
+            if p[2] > 0:
+                p[0] += p[3] * dt
+                p[1] += p[4] * dt
+                p[5] += 12 * dt   # smoke expands
+                alive.append(p)
+        self._smoke = alive
 
         # ── camera smooth follow ──────────────────────────────────────
         tx = self.physics.x - self.SW / 2
@@ -240,6 +287,19 @@ class RaceScreen:
             if 0 <= sx < self.SW and 0 <= sy < self.SH:
                 a8 = max(0, int(55 * alpha / 220))
                 pygame.draw.circle(surface, (a8, max(0, a8-3), max(0, a8-5)), (sx, sy), 3)
+
+        # 2b. drift smoke
+        for p in self._smoke:
+            sx = int(p[0] - self.cam_x)
+            sy = int(p[1] - self.cam_y)
+            if 0 <= sx < self.SW and 0 <= sy < self.SH:
+                life_frac = p[2] / _SMOKE_LIFE
+                alpha = int(80 * life_frac)
+                rad = max(1, int(p[5]))
+                smoke_surf = pygame.Surface((rad*2, rad*2), pygame.SRCALPHA)
+                pygame.draw.circle(smoke_surf, (180, 175, 165, alpha),
+                                   (rad, rad), rad)
+                surface.blit(smoke_surf, (sx - rad, sy - rad))
 
         # 3. car
         sx = int(self.physics.x - self.cam_x)

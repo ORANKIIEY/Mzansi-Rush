@@ -99,6 +99,16 @@
       "collision_damage": 0.0,
       "color_rgb": [30, 144, 255],
       "description": "Deep water hazard. Substantially reduces grip and speed."
+    },
+    "slow_pad": {
+      "friction": 1.0,
+      "drivable": true,
+      "hazard": false,
+      "speed_multiplier": 0.3,
+      "damage_per_sec": 0.0,
+      "collision_damage": 0.0,
+      "color_rgb": [200, 50, 50],
+      "description": "Brake pad. Forcefully slows down the vehicle."
     }
   }
 }
