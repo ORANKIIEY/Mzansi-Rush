@@ -7,6 +7,7 @@ from ui.lobby import LobbyScreen
 from ui.garage import GarageScreen
 from ui.settings_screen import SettingsScreen
 from ui.components import NavBar
+from game.race import RaceScreen
 
 DATA_DIR = "data"
 
@@ -61,10 +62,11 @@ def main():
 
     fonts = build_fonts()
 
-    lobby          = LobbyScreen(SW, SH, fonts, game_data)
-    garage         = GarageScreen(SW, SH, fonts, game_data)
+    lobby           = LobbyScreen(SW, SH, fonts, game_data)
+    garage          = GarageScreen(SW, SH, fonts, game_data)
     settings_screen = SettingsScreen(SW, SH, fonts, game_data)
-    navbar         = NavBar(SW, fonts["btn"], fonts["small"], fonts["coin"])
+    navbar          = NavBar(SW, fonts["btn"], fonts["small"], fonts["coin"])
+    race_screen: RaceScreen | None = None
 
     # Navigation history stack — each entry is a screen name string.
     # The top of the stack is the current screen.
@@ -87,63 +89,83 @@ def main():
             lobby.on_enter()
 
     running = True
+    dt = 0.0
     while running:
         events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.QUIT:
-                running = False
 
-            # NavBar handles back button + ESC for all non-lobby screens
-            if current() != "lobby":
-                nav_result = navbar.handle_event(event, history)
-                if nav_result == "back":
-                    navigate_back()
-                    continue
+        if current() == "race":
+            # ── race screen handles its own events + update + draw ─────
+            for event in events:
+                if event.type == pygame.QUIT:
+                    running = False
+                if race_screen:
+                    result = race_screen.handle_event(event)
+                    if result == "lobby":
+                        navigate_back()
+                        race_screen = None
 
-            if current() == "lobby":
-                result = lobby.handle_event(event)
-                if result == "garage":
-                    navigate_to("garage")
-                elif result == "settings":
-                    navigate_to("settings")
-                elif result == "race":
-                    print(f"Starting race with: {game_data['player']['selected_car']}")
-                elif result == "quit":
+            if current() == "race" and race_screen:
+                race_screen.update(dt)
+                race_screen.draw(screen)
+
+        else:
+            for event in events:
+                if event.type == pygame.QUIT:
                     running = False
 
+                # NavBar handles back button + ESC for all non-lobby screens
+                if current() != "lobby":
+                    nav_result = navbar.handle_event(event, history)
+                    if nav_result == "back":
+                        navigate_back()
+                        continue
+
+                if current() == "lobby":
+                    result = lobby.handle_event(event)
+                    if result == "garage":
+                        navigate_to("garage")
+                    elif result == "settings":
+                        navigate_to("settings")
+                    elif result == "race":
+                        race_screen = RaceScreen(SW, SH, fonts, game_data)
+                        navigate_to("race")
+                    elif result == "quit":
+                        running = False
+
+                elif current() == "garage":
+                    result = garage.handle_event(event)
+                    if result == "race":
+                        race_screen = RaceScreen(SW, SH, fonts, game_data)
+                        navigate_to("race")
+
+                elif current() == "settings":
+                    settings_screen.handle_event(event)
+
+            # update
+            if current() == "lobby":
+                lobby.update()
+
+            # draw
+            draw_background(screen, SW, SH)
+
+            if current() == "lobby":
+                lobby.draw(screen)
             elif current() == "garage":
-                result = garage.handle_event(event)
-                if result == "race":
-                    print(f"Starting race with: {game_data['player']['selected_car']}")
-                    navigate_back()
-
+                garage.draw(screen)
             elif current() == "settings":
-                settings_screen.handle_event(event)
+                settings_screen.draw(screen)
 
-        # update
-        if current() == "lobby":
-            lobby.update()
-
-        # draw
-        draw_background(screen, SW, SH)
-
-        if current() == "lobby":
-            lobby.draw(screen)
-        elif current() == "garage":
-            garage.draw(screen)
-        elif current() == "settings":
-            settings_screen.draw(screen)
-
-        # NavBar drawn on top of every screen except lobby
-        if current() != "lobby":
-            navbar.draw(screen, history, game_data["player"]["coins"])
+            # NavBar drawn on top of every screen except lobby
+            if current() not in ("lobby", "race"):
+                navbar.draw(screen, history, game_data["player"]["coins"])
 
         if game_data["settings"].get("show_fps"):
             fps_surf = fonts["small"].render(f"FPS: {clock.get_fps():.0f}", True, TEXT_SECONDARY)
             screen.blit(fps_surf, (8, SH - 24))
 
         pygame.display.flip()
-        clock.tick(60)
+        dt = clock.tick(60) / 1000.0
+        dt = min(dt, 0.05)   # cap dt so physics don't explode on lag spikes
 
     save_json(f"{DATA_DIR}/player.json",   game_data["player"])
     save_json(f"{DATA_DIR}/settings.json", game_data["settings"])

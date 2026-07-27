@@ -3,11 +3,10 @@
   "level": 5,
   "level_xp": 340,
   "level_xp_max": 500,
-  "coins": 1200,
+  "coins": 400,
   "owned_cars": [
-    "viper_s",
-    "storm_gt",
-    "black_mamba"
+    "taxi",
+    "figo"
   ],
-  "selected_car": "black_mamba"
+  "selected_car": "figo"
 }
