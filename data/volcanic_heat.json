@@ -56,10 +56,7 @@
     "WLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLW",
     "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
   ],
-<<<<<<< HEAD
-=======
   "start_finish_checkpoint_id": 1,
->>>>>>> 49aa317546df5278689131c8f09ce64ea97717bc
   "checkpoints": [
     {
       "id": 1,
@@ -121,18 +118,6 @@
     }
   ],
   "decorations": [
-<<<<<<< HEAD
-    {
-      "type": "tire_stack",
-      "x": 7.5,
-      "y": 7.5
-    },
-    {
-      "type": "tire_stack",
-      "x": 43.5,
-      "y": 26.5
-    }
-=======
     {"type": "tire_stack",     "x":  7.5, "y":  7.5},
     {"type": "tire_stack",     "x": 43.5, "y": 26.5},
     {"type": "warning_sign",   "x": 10.5, "y":  8.5},
@@ -149,6 +134,5 @@
     {"type": "crowd",          "x": 10.5, "y":  2.5},
     {"type": "crowd",          "x": 40.5, "y":  2.5},
     {"type": "crowd",          "x": 25.5, "y": 32.5}
->>>>>>> 49aa317546df5278689131c8f09ce64ea97717bc
   ]
 }

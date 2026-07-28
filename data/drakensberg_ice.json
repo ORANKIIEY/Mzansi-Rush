@@ -52,10 +52,7 @@
     "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
     "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
   ],
-<<<<<<< HEAD
-=======
   "start_finish_checkpoint_id": 1,
->>>>>>> 49aa317546df5278689131c8f09ce64ea97717bc
   "checkpoints": [
     {
       "id": 1,
@@ -117,18 +114,6 @@
     }
   ],
   "decorations": [
-<<<<<<< HEAD
-    {
-      "type": "barrier",
-      "x": 39.5,
-      "y": 5.5
-    },
-    {
-      "type": "barrier",
-      "x": 15.5,
-      "y": 15.5
-    }
-=======
     {"type": "barrier",        "x": 39.5, "y":  5.5},
     {"type": "barrier",        "x": 15.5, "y": 15.5},
     {"type": "warning_sign",   "x": 10.5, "y":  5.5},
@@ -143,6 +128,5 @@
     {"type": "crowd",          "x": 38.5, "y":  2.5},
     {"type": "crowd",          "x": 10.5, "y": 28.5},
     {"type": "string_lights",  "x": 22.5, "y":  3.5}
->>>>>>> 49aa317546df5278689131c8f09ce64ea97717bc
   ]
 }
